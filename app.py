@@ -18,3 +18,7 @@ if mode == 'Generate Questions':
   count = st.slider(1,10,5)
 elif mode == 'Generate Code Questions':
   topic = st.selectbox('Topics', ['SQL', 'AIML', 'Python', 'DSA', 'Java', 'c/c++'])
+  count = st.slider("Number of Questions",1,10,5)
+else:
+  questions = st.text_area('Enter Interview Questions here')
+  answer = st.text_area('Enter your answer', height =160)
