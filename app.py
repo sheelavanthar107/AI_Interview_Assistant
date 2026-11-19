@@ -11,7 +11,7 @@ except (KeyError, FileNotFound):
 role = st.selectbox('Job Title', ['Machine Learning Engineer','Senior Software','DevOPs Engineer','Data Analyst','Other'])
 if role == 'Other':
   st.text_input('Enter you Job Title','XXXXXXX')
-model = st.selectbox('Model', ['openai/gpt-oss-120b','openai/gpt-oss-20b'])
+gen_model = st.selectbox('Model', ['openai/gpt-oss-120b','openai/gpt-oss-20b'])
 level = st.selectbox('Difficulty',['Beginner', 'Intermediate', 'Adavanced'])
 mode = st.radio('Activity', ['Generate Questions','Generate Code Questions','Evaluate Answers','Improve Answers'])
 if mode == 'Generate Questions':
@@ -29,4 +29,29 @@ if st.button("Generate AI Response", type = "primary"):
 topics = "Topics is" + topic + "Difficulty is" + level
 if mode = "Generate Questions":
   task = "Generate" + str(count) + "Frequently asked Interview Questions 3 theory and 2 scenario questions.Do not give answer"."Give Hints"
-elif mode == "Generate code questions"
+elif mode == "Generate Code Questions":
+  task = "Generate" + str(count) + "Frequently asked coding questions on topic" + topic + "and hints to solve them.Be accurate."
+elif mode == "Evaluate Answers":
+  task = "Question : " + question + "My answer : "+answer + "Evaluate based on concept, relevance, communication, length od answer. Give each rating out of 5 in a list."
+elif mode == "Improve Answers":
+  task = "Question : " + question + "My Answer : " + answer + "Improve the answer based on choice of words."
+  background = "Job role : " + role + "Difficulty level " + level
+  with st.spinner("Generating your answer ... "):
+    try:
+       response = client.chat.completions.create(
+         model = gen_model,
+         messages = [{"role",system,
+                      "content":"Act as a Senior Interviewer, both HR and Techical expert"},
+                     {"role" : "user",
+                      "content" : background + task }],
+         temperature = 0.7,
+         max_tokens = 2000)
+         output = response.choices[0].message.content
+         st.subheader("AI Response")
+         st.markdown(output)
+         st.download_button("Download Response", output, file_name = "Interview_Response.txt", mime = 'text/plain' )       
+except Exception as e:
+st.error ("API connection was unsuccessful", e)
+st.info ("Please check your API Key and rate limits")
+st.caption("Powered by streamlit.io and GitHub.Using LLM API")
+    
