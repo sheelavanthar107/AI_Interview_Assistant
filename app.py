@@ -23,28 +23,30 @@ else:
   question = st.text_area('Enter Interview Questions here')
   answer = st.text_area('Enter your answer', height =160)
 if st.button("Generate AI Response", type = "primary"):
- if mode == ['Evaluate Answers'] and (not question.strip() or not answer.strip()) :
-             st.warning("Please enter a valid Question and Answer")
-             st.stop()
- if mode == "Generate Questions":
-  task = "Generate" + str(count) + "Frequently asked Interview Questions 3 theory and 2 scenario questions.Do not give answer.Give Hints."
-elif mode == "Generate Code Questions":
-  task = "Generate" + str(count) + "Frequently asked coding questions on topic" + topic + "and hints to solve them.Be accurate."
-elif mode == "Evaluate Answers":
-  task = "Question : " + question + "My answer : "+answer + "Evaluate based on concept, relevance, communication, length od answer. Give each rating out of 5 in a list."
-elif mode == "Improve Answers":
-  task = "Question : " + question + "My Answer : " + answer + "Improve the answer based on choice of words."
-background = "Job role : " + role + "Difficulty level " + level
-with st.spinner("Generating your answer ... "):
+  if mode == ['Evaluate Answers'] and (not question.strip() or not answer.strip()) :
+    st.warning("Please enter a valid Question and Answer")
+    st.stop()
+  if mode == "Generate Questions":
+    task = "Generate" + str(count) + "Frequently asked Interview Questions 3 theory and 2 scenario questions.Do not give answer.Give Hints."
+  elif mode == "Generate Code Questions":
+   task = "Generate" + str(count) + "Frequently asked coding questions on topic" + topic + "and hints to solve them.Be accurate."
+  elif mode == "Evaluate Answers":
+    task = "Question : " + question + "My answer : "+answer + "Evaluate based on concept, relevance, communication, length od answer. Give each rating out of 5 in a list."
+  elif mode == "Improve Answers":
+    task = "Question : " + question + "My Answer : " + answer + "Improve the answer based on choice of words."
+  background = "Job role : " + role + "Difficulty level " + level
+  with st.spinner("Generating your answer ... "):
     try:
        response = client.chat.completions.create(
          model = gen_model,
          messages = [{"role":"system",
                       "content": "Act as a Senior Interviewer, both HR and Techical expert"},
                      {"role" : "user",
-                      "content" : background + task }],
+                      "content" : background + task }
+                    ],
          temperature = 0.7,
-         max_tokens = 1800)
+         max_tokens = 1800
+       )
       output = response.choices[0].message.content
       st.subheader("AI Response")
       st.markdown(output)
