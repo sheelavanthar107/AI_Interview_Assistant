@@ -41,7 +41,7 @@ elif mode == "Improve Answers":
     try:
        response = client.chat.completions.create(
          model = gen_model,
-         messages = [{"role","system",
+         messages = [{"role":"system",
                       "content": "Act as a Senior Interviewer, both HR and Techical expert"},
                      {"role" : "user",
                       "content" : background + task }],
