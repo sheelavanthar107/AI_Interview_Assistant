@@ -22,3 +22,4 @@ elif mode == 'Generate Code Questions':
 else:
   questions = st.text_area('Enter Interview Questions here')
   answer = st.text_area('Enter your answer', height =160)
+st.button("Generate AI Response", type = "primary"):
