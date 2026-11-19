@@ -20,7 +20,7 @@ elif mode == 'Generate Code Questions':
   topic = st.selectbox('Topics', ['SQL', 'AIML', 'Python', 'DSA', 'Java', 'c/c++'])
   count = st.slider("Number of Questions",1,10,5)
 else:
-  questions = st.text_area('Enter Interview Questions here')
+  question = st.text_area('Enter Interview Questions here')
   answer = st.text_area('Enter your answer', height =160)
 if st.button("Generate AI Response", type = "primary"):
   if mode == ['Evaluate Answers'] and (not question.strip() or not answer.strip()) :
@@ -46,7 +46,7 @@ elif mode == "Improve Answers":
                      {"role" : "user",
                       "content" : background + task }],
          temperature = 0.7,
-         max_tokens = 2000)
+         max_tokens = 1800)
       output = response.choices[0].message.content
       st.subheader("AI Response")
       st.markdown(output)
